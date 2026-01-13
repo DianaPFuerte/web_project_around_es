@@ -1,3 +1,4 @@
+// List of objects for the cards (title and image URL)
 let initialCards = [
   {
     name: "Valle de Yosemite",
@@ -25,6 +26,28 @@ let initialCards = [
   },
 ];
 
+// Show the names of the initial cards in the console
 initialCards.forEach(function (card) {
   console.log(card.name);
+});
+
+// Constants for edit profile section
+const editProfileBtn = document.querySelector(".profile__edit-button");
+const editProfileModal = document.querySelector("#edit-popup");
+const editProfileCloseBtn = editProfileModal.querySelector(".popup__close");
+
+// Functions to open and close modals
+function openModal(modal) {
+  modal.classList.add("popup_is-opened");
+}
+function closeModal(modal) {
+  modal.classList.remove("popup_is-opened");
+}
+
+// Event listeners for edit profile modal
+editProfileBtn.addEventListener("click", () => {
+  openModal(editProfileModal);
+});
+editProfileCloseBtn.addEventListener("click", () => {
+  closeModal(editProfileModal);
 });
