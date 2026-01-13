@@ -31,10 +31,22 @@ initialCards.forEach(function (card) {
   console.log(card.name);
 });
 
-// Constants for edit profile section
+// Constants for edit profile section:
 const editProfileBtn = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector("#edit-popup");
 const editProfileCloseBtn = editProfileModal.querySelector(".popup__close");
+
+// Constants for profile form:
+//  Inputs inside the edit profile modal
+const editProfileNameInput = editProfileModal.querySelector(
+  ".popup__input_type_name"
+);
+const editProfileDescriptionInput = editProfileModal.querySelector(
+  ".popup__input_type_description"
+);
+//  Profile info on the page
+const profileName = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
 
 // Functions to open and close modals
 function openModal(modal) {
@@ -44,10 +56,20 @@ function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
 }
 
-// Event listeners for edit profile modal
-editProfileBtn.addEventListener("click", () => {
+// Function to fill the profile form
+function fillProfileForm() {
+  editProfileNameInput.value = profileName.textContent;
+  editProfileDescriptionInput.value = profileDescription.textContent;
+}
+
+// Function to handle opening the edit profile modal
+function handleOpenEditModal() {
+  fillProfileForm();
   openModal(editProfileModal);
-});
+}
+
+// Event listeners for edit profile modal
+editProfileBtn.addEventListener("click", handleOpenEditModal); // This function doesn't need to be wrapped in an anonymous function becase it doesn't require any arguments
 editProfileCloseBtn.addEventListener("click", () => {
   closeModal(editProfileModal);
 });
