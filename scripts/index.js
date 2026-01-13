@@ -48,6 +48,9 @@ const editProfileDescriptionInput = editProfileModal.querySelector(
 const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
+// Constants for submit profile section:
+let formElement = document.querySelector("#edit-profile-form");
+
 // Functions to open and close modals
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -68,8 +71,27 @@ function handleOpenEditModal() {
   openModal(editProfileModal);
 }
 
+// Function to handle profile form submission
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault(); // Prevent default form submission behavior
+
+  let nameInput = editProfileModal.querySelector(".popup__input_type_name");
+  let jobInput = editProfileModal.querySelector(
+    ".popup__input_type_description"
+  );
+
+  let profileName = document.querySelector(".profile__title");
+  let profileDescription = document.querySelector(".profile__description");
+
+  profileName.textContent = nameInput.value;
+  profileDescription.textContent = jobInput.value;
+
+  closeModal(editProfileModal);
+}
+
 // Event listeners for edit profile modal
-editProfileBtn.addEventListener("click", handleOpenEditModal); // This function doesn't need to be wrapped in an anonymous function becase it doesn't require any arguments
+editProfileBtn.addEventListener("click", handleOpenEditModal); // This function doesn't need to be wrapped in an anonymous function because it doesn't require any arguments
 editProfileCloseBtn.addEventListener("click", () => {
   closeModal(editProfileModal);
 });
+formElement.addEventListener("submit", handleProfileFormSubmit);
