@@ -44,12 +44,19 @@ const editProfileNameInput = editProfileModal.querySelector(
 const editProfileDescriptionInput = editProfileModal.querySelector(
   ".popup__input_type_description"
 );
+
 //  Profile info on the page
 const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
 // Constants for submit profile section:
 let formElement = document.querySelector("#edit-profile-form");
+
+// Card container
+const cardTemplate = document
+  .querySelector("#card-template")
+  .content.querySelector(".card");
+const cardContainerGlobal = document.querySelector(".cards__list");
 
 // Functions to open and close modals
 function openModal(modal) {
@@ -95,3 +102,39 @@ editProfileCloseBtn.addEventListener("click", () => {
   closeModal(editProfileModal);
 });
 formElement.addEventListener("submit", handleProfileFormSubmit);
+
+// Function to create a card element
+function getCardElement(
+  name = "Sin título",
+  link = "./images/placeholder.jpg"
+) {
+  const cardElement = cardTemplate.cloneNode(true);
+  const nameElement = cardElement.querySelector(".card__title");
+  const imageElement = cardElement.querySelector(".card__image");
+  const cardLikeButton = cardElement.querySelector(".card__like-button");
+  const cardDeleteButton = cardElement.querySelector(".card__delete-button");
+
+  nameElement.textContent = name;
+  imageElement.src = link;
+
+  // Event listener for buttons
+  cardLikeButton.addEventListener("click", () => {
+    cardLikeButton.classList.toggle("card__like-button_is-active");
+  });
+  cardDeleteButton.addEventListener("click", () => {
+    cardElement.remove();
+  });
+
+  return cardElement;
+}
+
+// Function to render a card in the container
+function renderCard(name, link, cardContainer) {
+  const cardElement = getCardElement(name, link);
+  cardContainer.append(cardElement);
+}
+
+// Render initial cards
+initialCards.forEach((card) => {
+  renderCard(card.name, card.link, cardContainerGlobal);
+});
