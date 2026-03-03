@@ -116,6 +116,7 @@ function getCardElement(
 
   nameElement.textContent = name;
   imageElement.src = link;
+  imageElement.alt = name;
 
   // Event listener for buttons
   cardLikeButton.addEventListener("click", () => {
