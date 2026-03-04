@@ -27,9 +27,9 @@ let initialCards = [
 ];
 
 // Show the names of the initial cards in the console
-initialCards.forEach(function (card) {
-  console.log(card.name);
-});
+//initialCards.forEach(function (card) {
+//  console.log(card.name);
+//});
 
 // Constants for edit profile section:
 const editProfileBtn = document.querySelector(".profile__edit-button");
