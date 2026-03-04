@@ -63,6 +63,12 @@ const addCardBtn = document.querySelector(".profile__add-button");
 const addCardModal = document.querySelector("#new-card-popup");
 const addCardCloseBtn = addCardModal.querySelector(".popup__close");
 
+// Constants for image preview modal
+const imageModal = document.querySelector("#image-popup");
+const imageModalImg = imageModal.querySelector(".popup__image");
+const imageModalCaption = imageModal.querySelector(".popup__caption");
+const imageModalCloseBtn = imageModal.querySelector(".popup__close");
+
 // Constants for submit profile section:
 let formElementCard = document.querySelector("#new-card-form");
 
@@ -139,6 +145,13 @@ function getCardElement(
   cardDeleteButton.addEventListener("click", () => {
     cardElement.remove();
   });
+  imageElement.addEventListener("click", () => {
+    // fill modal content and open it
+    imageModalImg.src = link;
+    imageModalImg.alt = name;
+    imageModalCaption.textContent = name;
+    openModal(imageModal);
+  });
 
   return cardElement;
 }
@@ -180,3 +193,8 @@ addCardCloseBtn.addEventListener("click", () => {
   closeModal(addCardModal);
 });
 formElementCard.addEventListener("submit", handleCardFormSubmit);
+
+// close button for image modal
+imageModalCloseBtn.addEventListener("click", () => {
+  closeModal(imageModal);
+});
