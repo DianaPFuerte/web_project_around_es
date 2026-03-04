@@ -39,10 +39,10 @@ const editProfileCloseBtn = editProfileModal.querySelector(".popup__close");
 // Constants for profile form:
 //  Inputs inside the edit profile modal
 const editProfileNameInput = editProfileModal.querySelector(
-  ".popup__input_type_name"
+  ".popup__input_type_name",
 );
 const editProfileDescriptionInput = editProfileModal.querySelector(
-  ".popup__input_type_description"
+  ".popup__input_type_description",
 );
 
 //  Profile info on the page
@@ -57,6 +57,20 @@ const cardTemplate = document
   .querySelector("#card-template")
   .content.querySelector(".card");
 const cardContainerGlobal = document.querySelector(".cards__list");
+
+// Constants for add card section:
+const addCardBtn = document.querySelector(".profile__add-button");
+const addCardModal = document.querySelector("#new-card-popup");
+const addCardCloseBtn = addCardModal.querySelector(".popup__close");
+
+// Constants for submit profile section:
+let formElementCard = document.querySelector("#new-card-form");
+
+//  Inputs inside the add card modal
+const addCardNameInput = addCardModal.querySelector(
+  ".popup__input_type_card-name",
+);
+const addCardLinkInput = addCardModal.querySelector(".popup__input_type_url");
 
 // Functions to open and close modals
 function openModal(modal) {
@@ -84,7 +98,7 @@ function handleProfileFormSubmit(evt) {
 
   let nameInput = editProfileModal.querySelector(".popup__input_type_name");
   let jobInput = editProfileModal.querySelector(
-    ".popup__input_type_description"
+    ".popup__input_type_description",
   );
 
   let profileName = document.querySelector(".profile__title");
@@ -106,7 +120,7 @@ formElement.addEventListener("submit", handleProfileFormSubmit);
 // Function to create a card element
 function getCardElement(
   name = "Sin título",
-  link = "./images/placeholder.jpg"
+  link = "./images/placeholder.jpg",
 ) {
   const cardElement = cardTemplate.cloneNode(true);
   const nameElement = cardElement.querySelector(".card__title");
@@ -132,10 +146,37 @@ function getCardElement(
 // Function to render a card in the container
 function renderCard(name, link, cardContainer) {
   const cardElement = getCardElement(name, link);
-  cardContainer.append(cardElement);
+  cardContainer.prepend(cardElement);
 }
 
 // Render initial cards
 initialCards.forEach((card) => {
   renderCard(card.name, card.link, cardContainerGlobal);
 });
+
+// Function to handle the opening of the add card modal
+function handleOpenAddCardModal() {
+  // reset the form fields so the placeholder text ("Título", "Enlace a la imagen")
+  // is visible each time the popup opens
+  addCardNameInput.value = "";
+  addCardLinkInput.value = "";
+  openModal(addCardModal);
+}
+
+// Function to handle add card form submission
+function handleCardFormSubmit(evt) {
+  evt.preventDefault(); // Prevent default form submission behavior
+  renderCard(
+    addCardNameInput.value,
+    addCardLinkInput.value,
+    cardContainerGlobal,
+  );
+  closeModal(addCardModal);
+}
+
+// Event listeners for add card modal
+addCardBtn.addEventListener("click", handleOpenAddCardModal);
+addCardCloseBtn.addEventListener("click", () => {
+  closeModal(addCardModal);
+});
+formElementCard.addEventListener("submit", handleCardFormSubmit);
