@@ -26,4 +26,4 @@ A futuro, se planea:
 
 ## Deployment
 
-https://dianapfuerte.github.io/web_project_around_es/
+https://dianapfuerte.github.io/web_project_expenses_es/
