@@ -157,3 +157,21 @@
     padding: 0;
   }
 }
+
+/* ====== ERRORS ====== */
+.popup__input-error {
+  display: none;
+  font-size: 12px;
+  color: red;
+}
+
+.popup__input_type_error {
+  border-color: red;
+  border-bottom-width: 2px;
+}
+
+.popup__input-error_active {
+  display: block;
+  color: red;
+  font-size: 12px;
+}

@@ -78,6 +78,9 @@ const addCardNameInput = addCardModal.querySelector(
 );
 const addCardLinkInput = addCardModal.querySelector(".popup__input_type_url");
 
+// Imputs of the edit profile form
+const inputsProfile = formElement.querySelectorAll(".popup__input");
+
 // Functions to open and close modals
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -197,4 +200,51 @@ formElementCard.addEventListener("submit", handleCardFormSubmit);
 // close button for image modal
 imageModalCloseBtn.addEventListener("click", () => {
   closeModal(imageModal);
+});
+
+// Function to show input errors of the edit profile form
+function showInputError(inputElement, errorMessage) {
+  const errorElement = formElement.querySelector(
+    `.${inputElement.name}-input-error`,
+  );
+  inputElement.classList.add("popup__input_type_error");
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add("popup__input-error_active");
+}
+
+// Function to hide input errors of the edit profile form
+function hideInputError(inputElement) {
+  const errorElement = formElement.querySelector(
+    `.${inputElement.name}-input-error`,
+  );
+  inputElement.classList.remove("popup__input_type_error");
+  errorElement.textContent = "";
+  errorElement.classList.remove("popup__input-error_active");
+}
+
+// Real-time validation for the edit profile form
+inputsProfile.forEach((input) => {
+  input.addEventListener("input", () => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage);
+    } else {
+      hideInputError(input);
+    }
+  });
+});
+
+// Form submit validation for the edit profile form
+formElement.addEventListener("submit", (event) => {
+  let formValid = true;
+
+  inputsProfile.forEach((input) => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage);
+      formValid = false;
+    }
+  });
+
+  if (!formValid) {
+    event.preventDefault();
+  }
 });
