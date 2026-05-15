@@ -78,8 +78,11 @@ const addCardNameInput = addCardModal.querySelector(
 );
 const addCardLinkInput = addCardModal.querySelector(".popup__input_type_url");
 
-// Imputs of the edit profile form
+// Inputs of the edit profile form
 const inputsProfile = formElement.querySelectorAll(".popup__input");
+
+// Inputs of the add card form
+const inputsCard = formElementCard.querySelectorAll(".popup__input");
 
 // Functions to open and close modals
 function openModal(modal) {
@@ -202,9 +205,9 @@ imageModalCloseBtn.addEventListener("click", () => {
   closeModal(imageModal);
 });
 
-// Function to show input errors of the edit profile form
-function showInputError(inputElement, errorMessage) {
-  const errorElement = formElement.querySelector(
+// Function to show input errors of a form
+function showInputError(inputElement, errorMessage, theForm) {
+  const errorElement = theForm.querySelector(
     `.${inputElement.name}-input-error`,
   );
   inputElement.classList.add("popup__input_type_error");
@@ -212,9 +215,9 @@ function showInputError(inputElement, errorMessage) {
   errorElement.classList.add("popup__input-error_active");
 }
 
-// Function to hide input errors of the edit profile form
-function hideInputError(inputElement) {
-  const errorElement = formElement.querySelector(
+// Function to hide input errors of a form
+function hideInputError(inputElement, theForm) {
+  const errorElement = theForm.querySelector(
     `.${inputElement.name}-input-error`,
   );
   inputElement.classList.remove("popup__input_type_error");
@@ -226,9 +229,20 @@ function hideInputError(inputElement) {
 inputsProfile.forEach((input) => {
   input.addEventListener("input", () => {
     if (!input.validity.valid) {
-      showInputError(input, input.validationMessage);
+      showInputError(input, input.validationMessage, formElement);
     } else {
-      hideInputError(input);
+      hideInputError(input, formElement);
+    }
+  });
+});
+
+// Real-time validation for the add card form
+inputsCard.forEach((input) => {
+  input.addEventListener("input", () => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage, formElementCard);
+    } else {
+      hideInputError(input, formElementCard);
     }
   });
 });
@@ -239,7 +253,23 @@ formElement.addEventListener("submit", (event) => {
 
   inputsProfile.forEach((input) => {
     if (!input.validity.valid) {
-      showInputError(input, input.validationMessage);
+      showInputError(input, input.validationMessage, formElement);
+      formValid = false;
+    }
+  });
+
+  if (!formValid) {
+    event.preventDefault();
+  }
+});
+
+// Form submit validation for the add card form
+formElementCard.addEventListener("submit", (event) => {
+  let formValid = true;
+
+  inputsCard.forEach((input) => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage, formElementCard);
       formValid = false;
     }
   });
