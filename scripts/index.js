@@ -84,6 +84,10 @@ const inputsProfile = formElement.querySelectorAll(".popup__input");
 // Inputs of the add card form
 const inputsCard = formElementCard.querySelectorAll(".popup__input");
 
+// Buttons of the forms (used to disable/enable them when the form is invalid/valid)
+const submitButtonProfile = formElement.querySelector(".popup__button");
+const submitButtonCard = formElementCard.querySelector(".popup__button");
+
 // Functions to open and close modals
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -101,6 +105,7 @@ function fillProfileForm() {
 // Function to handle opening the edit profile modal
 function handleOpenEditModal() {
   fillProfileForm();
+  toggleButtonState(submitButtonProfile, inputsProfile);
   openModal(editProfileModal);
 }
 
@@ -179,6 +184,7 @@ function handleOpenAddCardModal() {
   // is visible each time the popup opens
   addCardNameInput.value = "";
   addCardLinkInput.value = "";
+  toggleButtonState(submitButtonCard, inputsCard);
   openModal(addCardModal);
 }
 
@@ -225,6 +231,12 @@ function hideInputError(inputElement, theForm) {
   errorElement.classList.remove("popup__input-error_active");
 }
 
+// Function to toggle the state of the submit button based on form validity
+function toggleButtonState(button, inputs) {
+  const allValid = Array.from(inputs).every((input) => input.validity.valid);
+  button.disabled = !allValid;
+}
+
 // Real-time validation for the edit profile form
 inputsProfile.forEach((input) => {
   input.addEventListener("input", () => {
@@ -233,6 +245,7 @@ inputsProfile.forEach((input) => {
     } else {
       hideInputError(input, formElement);
     }
+    toggleButtonState(submitButtonProfile, inputsProfile);
   });
 });
 
@@ -244,6 +257,7 @@ inputsCard.forEach((input) => {
     } else {
       hideInputError(input, formElementCard);
     }
+    toggleButtonState(submitButtonCard, inputsCard);
   });
 });
 
