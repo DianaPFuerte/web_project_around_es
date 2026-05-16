@@ -96,6 +96,21 @@ function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
 }
 
+function handleEscapeClose(event) {
+  if (event.key === "Escape") {
+    const openModal = document.querySelector(".popup_is-opened");
+    if (openModal) {
+      closeModal(openModal);
+    }
+  }
+}
+
+function handleOverlayClick(event) {
+  if (event.target.classList.contains("popup")) {
+    closeModal(event.target);
+  }
+}
+
 // Function to fill the profile form
 function fillProfileForm() {
   editProfileNameInput.value = profileName.textContent;
@@ -210,6 +225,11 @@ formElementCard.addEventListener("submit", handleCardFormSubmit);
 imageModalCloseBtn.addEventListener("click", () => {
   closeModal(imageModal);
 });
+
+[editProfileModal, addCardModal, imageModal].forEach((modal) => {
+  modal.addEventListener("click", handleOverlayClick);
+});
+document.addEventListener("keydown", handleEscapeClose);
 
 // Function to show input errors of a form
 function showInputError(inputElement, errorMessage, theForm) {
