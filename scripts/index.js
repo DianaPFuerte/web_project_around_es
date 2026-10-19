@@ -1,5 +1,6 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import { openModal, closeModal, handleOverlayClick } from "./utils.js";
 
 // List of objects for the cards (title and image URL)
 let initialCards = [
@@ -93,29 +94,6 @@ profileFormValidator.setEventListeners();
 const cardFormValidator = new FormValidator(validationConfig, formElementCard);
 cardFormValidator.setEventListeners();
 
-// Functions to open and close modals
-function openModal(modal) {
-  modal.classList.add("popup_is-opened");
-}
-function closeModal(modal) {
-  modal.classList.remove("popup_is-opened");
-}
-
-function handleEscapeClose(event) {
-  if (event.key === "Escape") {
-    const openModal = document.querySelector(".popup_is-opened");
-    if (openModal) {
-      closeModal(openModal);
-    }
-  }
-}
-
-function handleOverlayClick(event) {
-  if (event.target.classList.contains("popup")) {
-    closeModal(event.target);
-  }
-}
-
 // Function to fill the profile form
 function fillProfileForm() {
   editProfileNameInput.value = profileName.textContent;
@@ -206,7 +184,7 @@ imageModalCloseBtn.addEventListener("click", () => {
   closeModal(imageModal);
 });
 
+// Close modals when clicking on the overlay
 [editProfileModal, addCardModal, imageModal].forEach((modal) => {
   modal.addEventListener("click", handleOverlayClick);
 });
-document.addEventListener("keydown", handleEscapeClose);
