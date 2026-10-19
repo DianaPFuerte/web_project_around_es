@@ -22,6 +22,8 @@ Throughout this project, I practiced and reinforced skills related to:
 - User event handling.
 - Real-time form validation.
 - HTML templates for dynamic content generation.
+- Object-Oriented Programming with ES6 classes (`Card` and `FormValidator`).
+- Code organization with JavaScript modules (`import` / `export`).
 - Modal (Popup) implementation.
 - Version control with Git and GitHub.
 - Application deployment using GitHub Pages.
@@ -34,7 +36,7 @@ Throughout this project, I practiced and reinforced skills related to:
 
 - HTML5
 - CSS3
-- JavaScript (ES6+)
+- JavaScript (ES6+): classes and modules
 
 ### Methodologies & Tools
 
@@ -102,6 +104,8 @@ This project showcases practical experience in:
 - DOM Manipulation
 - Event-Driven Programming
 - Form Validation
+- Object-Oriented Programming (OOP)
+- Modular JavaScript
 - Dynamic Component Generation
 - Responsive Web Design
 - Scalable CSS Architecture

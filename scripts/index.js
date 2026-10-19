@@ -3,7 +3,7 @@ import FormValidator from "./FormValidator.js";
 import { openModal, closeModal, handleOverlayClick } from "./utils.js";
 
 // List of objects for the cards (title and image URL)
-let initialCards = [
+const initialCards = [
   {
     name: "Valle de Yosemite",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
@@ -54,7 +54,7 @@ const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
 // Constants for submit profile section:
-let formElement = document.querySelector("#edit-profile-form");
+const profileForm = document.querySelector("#edit-profile-form");
 
 // Card container
 const cardContainerGlobal = document.querySelector(".cards__list");
@@ -71,7 +71,7 @@ const imageModalCaption = imageModal.querySelector(".popup__caption");
 const imageModalCloseBtn = imageModal.querySelector(".popup__close");
 
 // Constants for submit profile section:
-let formElementCard = document.querySelector("#new-card-form");
+const cardForm = document.querySelector("#new-card-form");
 
 //  Inputs inside the add card modal
 const addCardNameInput = addCardModal.querySelector(
@@ -88,10 +88,10 @@ const validationConfig = {
 };
 
 // One validator for each form
-const profileFormValidator = new FormValidator(validationConfig, formElement);
+const profileFormValidator = new FormValidator(validationConfig, profileForm);
 profileFormValidator.setEventListeners();
 
-const cardFormValidator = new FormValidator(validationConfig, formElementCard);
+const cardFormValidator = new FormValidator(validationConfig, cardForm);
 cardFormValidator.setEventListeners();
 
 // Function to fill the profile form
@@ -111,16 +111,8 @@ function handleOpenEditModal() {
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Prevent default form submission behavior
 
-  let nameInput = editProfileModal.querySelector(".popup__input_type_name");
-  let jobInput = editProfileModal.querySelector(
-    ".popup__input_type_description",
-  );
-
-  let profileName = document.querySelector(".profile__title");
-  let profileDescription = document.querySelector(".profile__description");
-
-  profileName.textContent = nameInput.value;
-  profileDescription.textContent = jobInput.value;
+  profileName.textContent = editProfileNameInput.value;
+  profileDescription.textContent = editProfileDescriptionInput.value;
 
   closeModal(editProfileModal);
 }
@@ -130,7 +122,7 @@ editProfileBtn.addEventListener("click", handleOpenEditModal); // This function 
 editProfileCloseBtn.addEventListener("click", () => {
   closeModal(editProfileModal);
 });
-formElement.addEventListener("submit", handleProfileFormSubmit);
+profileForm.addEventListener("submit", handleProfileFormSubmit);
 
 // Function to open the image preview modal (passed to each Card)
 function handleImageClick(name, link) {
@@ -177,7 +169,7 @@ addCardBtn.addEventListener("click", handleOpenAddCardModal);
 addCardCloseBtn.addEventListener("click", () => {
   closeModal(addCardModal);
 });
-formElementCard.addEventListener("submit", handleCardFormSubmit);
+cardForm.addEventListener("submit", handleCardFormSubmit);
 
 // close button for image modal
 imageModalCloseBtn.addEventListener("click", () => {
