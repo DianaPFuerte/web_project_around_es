@@ -1,4 +1,5 @@
 import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
 
 // List of objects for the cards (title and image URL)
 let initialCards = [
@@ -77,15 +78,20 @@ const addCardNameInput = addCardModal.querySelector(
 );
 const addCardLinkInput = addCardModal.querySelector(".popup__input_type_url");
 
-// Inputs of the edit profile form
-const inputsProfile = formElement.querySelectorAll(".popup__input");
+// Validation settings (selectors and classes used by FormValidator)
+const validationConfig = {
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__input-error_active",
+};
 
-// Inputs of the add card form
-const inputsCard = formElementCard.querySelectorAll(".popup__input");
+// One validator for each form
+const profileFormValidator = new FormValidator(validationConfig, formElement);
+profileFormValidator.setEventListeners();
 
-// Buttons of the forms (used to disable/enable them when the form is invalid/valid)
-const submitButtonProfile = formElement.querySelector(".popup__button");
-const submitButtonCard = formElementCard.querySelector(".popup__button");
+const cardFormValidator = new FormValidator(validationConfig, formElementCard);
+cardFormValidator.setEventListeners();
 
 // Functions to open and close modals
 function openModal(modal) {
@@ -119,7 +125,7 @@ function fillProfileForm() {
 // Function to handle opening the edit profile modal
 function handleOpenEditModal() {
   fillProfileForm();
-  toggleButtonState(submitButtonProfile, inputsProfile);
+  profileFormValidator.resetValidation();
   openModal(editProfileModal);
 }
 
@@ -173,7 +179,7 @@ function handleOpenAddCardModal() {
   // is visible each time the popup opens
   addCardNameInput.value = "";
   addCardLinkInput.value = "";
-  toggleButtonState(submitButtonCard, inputsCard);
+  cardFormValidator.resetValidation();
   openModal(addCardModal);
 }
 
@@ -204,85 +210,3 @@ imageModalCloseBtn.addEventListener("click", () => {
   modal.addEventListener("click", handleOverlayClick);
 });
 document.addEventListener("keydown", handleEscapeClose);
-
-// Function to show input errors of a form
-function showInputError(inputElement, errorMessage, theForm) {
-  const errorElement = theForm.querySelector(
-    `.${inputElement.name}-input-error`,
-  );
-  inputElement.classList.add("popup__input_type_error");
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add("popup__input-error_active");
-}
-
-// Function to hide input errors of a form
-function hideInputError(inputElement, theForm) {
-  const errorElement = theForm.querySelector(
-    `.${inputElement.name}-input-error`,
-  );
-  inputElement.classList.remove("popup__input_type_error");
-  errorElement.textContent = "";
-  errorElement.classList.remove("popup__input-error_active");
-}
-
-// Function to toggle the state of the submit button based on form validity
-function toggleButtonState(button, inputs) {
-  const allValid = Array.from(inputs).every((input) => input.validity.valid);
-  button.disabled = !allValid;
-}
-
-// Real-time validation for the edit profile form
-inputsProfile.forEach((input) => {
-  input.addEventListener("input", () => {
-    if (!input.validity.valid) {
-      showInputError(input, input.validationMessage, formElement);
-    } else {
-      hideInputError(input, formElement);
-    }
-    toggleButtonState(submitButtonProfile, inputsProfile);
-  });
-});
-
-// Real-time validation for the add card form
-inputsCard.forEach((input) => {
-  input.addEventListener("input", () => {
-    if (!input.validity.valid) {
-      showInputError(input, input.validationMessage, formElementCard);
-    } else {
-      hideInputError(input, formElementCard);
-    }
-    toggleButtonState(submitButtonCard, inputsCard);
-  });
-});
-
-// Form submit validation for the edit profile form
-formElement.addEventListener("submit", (event) => {
-  let formValid = true;
-
-  inputsProfile.forEach((input) => {
-    if (!input.validity.valid) {
-      showInputError(input, input.validationMessage, formElement);
-      formValid = false;
-    }
-  });
-
-  if (!formValid) {
-    event.preventDefault();
-  }
-});
-
-// Form submit validation for the add card form
-formElementCard.addEventListener("submit", (event) => {
-  let formValid = true;
-
-  inputsCard.forEach((input) => {
-    if (!input.validity.valid) {
-      showInputError(input, input.validationMessage, formElementCard);
-      formValid = false;
-    }
-  });
-
-  if (!formValid) {
-    event.preventDefault();
-  }
-});
