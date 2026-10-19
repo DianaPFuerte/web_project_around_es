@@ -1,3 +1,5 @@
+import Card from "./Card.js";
+
 // List of objects for the cards (title and image URL)
 let initialCards = [
   {
@@ -53,9 +55,6 @@ const profileDescription = document.querySelector(".profile__description");
 let formElement = document.querySelector("#edit-profile-form");
 
 // Card container
-const cardTemplate = document
-  .querySelector("#card-template")
-  .content.querySelector(".card");
 const cardContainerGlobal = document.querySelector(".cards__list");
 
 // Constants for add card section:
@@ -149,43 +148,18 @@ editProfileCloseBtn.addEventListener("click", () => {
 });
 formElement.addEventListener("submit", handleProfileFormSubmit);
 
-// Function to create a card element
-function getCardElement(
-  name = "Sin título",
-  link = "./images/placeholder.jpg",
-) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const nameElement = cardElement.querySelector(".card__title");
-  const imageElement = cardElement.querySelector(".card__image");
-  const cardLikeButton = cardElement.querySelector(".card__like-button");
-  const cardDeleteButton = cardElement.querySelector(".card__delete-button");
-
-  nameElement.textContent = name;
-  imageElement.src = link;
-  imageElement.alt = name;
-
-  // Event listener for buttons
-  cardLikeButton.addEventListener("click", () => {
-    cardLikeButton.classList.toggle("card__like-button_is-active");
-  });
-  cardDeleteButton.addEventListener("click", () => {
-    cardElement.remove();
-  });
-  imageElement.addEventListener("click", () => {
-    // fill modal content and open it
-    imageModalImg.src = link;
-    imageModalImg.alt = name;
-    imageModalCaption.textContent = name;
-    openModal(imageModal);
-  });
-
-  return cardElement;
+// Function to open the image preview modal (passed to each Card)
+function handleImageClick(name, link) {
+  imageModalImg.src = link;
+  imageModalImg.alt = name;
+  imageModalCaption.textContent = name;
+  openModal(imageModal);
 }
 
 // Function to render a card in the container
 function renderCard(name, link, cardContainer) {
-  const cardElement = getCardElement(name, link);
-  cardContainer.prepend(cardElement);
+  const card = new Card({ name, link }, "#card-template", handleImageClick);
+  cardContainer.prepend(card.generateCard());
 }
 
 // Render initial cards
